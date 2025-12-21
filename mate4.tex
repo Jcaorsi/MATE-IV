@@ -1,0 +1,136 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath, amssymb}
+\usepackage{geometry}
+\usepackage{xcolor}
+\usepackage{esint} 
+\usepackage{enumitem}
+
+% Márgenes cómodos
+\geometry{top=2cm, bottom=2cm, left=2.5cm, right=2.5cm}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.8em}
+
+\begin{document}
+
+% --- TÍTULO ---
+\begin{center}
+    {\Huge \textbf{Guía Completa de Variable Compleja}}
+    \vspace{0.2cm}
+    \hrule
+\end{center}
+
+\vspace{0.5cm}
+
+% [ ... SECCIONES 1 A 4 IGUALES QUE ANTES ... ]
+% (Pegar aquí el contenido previo de Series, Funciones Elementales, Laurent y Residuos)
+
+% --- SECCIÓN 5: TRANSFORMADA DE FOURIER ---
+\section{Transformada de Fourier}
+
+\subsection*{Definiciones}
+$$ \hat{f}(\omega) = \int_{-\infty}^{+\infty} f(t) e^{-i\omega t} \, dt \quad \longleftrightarrow \quad f(t) = \frac{1}{2\pi} \int_{-\infty}^{+\infty} \hat{f}(\omega) e^{i\omega t} \, d\omega $$
+
+\subsection*{Condiciones y Propiedades}
+\textbf{Condición:} $f \in L^1$ (Absolutamente integrable) y CPP.
+\begin{itemize}
+    \item \textbf{Traslación:} $f(t - t_0) \leftrightarrow e^{-i\omega t_0} \hat{f}(\omega)$
+    \item \textbf{Modulación:} $e^{i\omega_0 t} f(t) \leftrightarrow \hat{f}(\omega - \omega_0)$
+    \item \textbf{Escala:} $f(at) \leftrightarrow \frac{1}{|a|} \hat{f}\left(\frac{\omega}{a}\right)$
+    \item \textbf{Derivada de la Transf:} $\frac{d}{d\omega}\hat{f}(\omega) \leftrightarrow -it f(t)$
+    \item \textbf{Convolución:} La transformada de la convolución es el producto de las transformadas:
+    $$ \mathcal{F}[f(t) * g(t)] = \hat{f}(\omega) \cdot \hat{g}(\omega) $$
+\end{itemize}
+
+\subsection*{Dualidad (Ejemplo)}
+$\mathcal{F}[\hat{f}(t)] = 2\pi f(-\omega)$.
+Ej: Si $\mathcal{F}[e^{-|t|}] = \frac{2}{1+\omega^2} \implies \mathcal{F}[\frac{2}{1+t^2}] = 2\pi e^{-|\omega|}$.
+
+\subsection*{Pulso y Auxiliares}
+\textbf{Pulso rectangular} (ancho $2a$): $\hat{P_a}(\omega) = 2a \, \text{sinc}(a\omega)$.
+\textbf{Geométrica:} $\sum_{j=0}^{n} r^j = \frac{1 - r^{n+1}}{1 - r}$.
+
+\vspace{0.5cm}
+\hrule
+\vspace{0.5cm}
+
+% --- SECCIÓN 6: TRANSFORMADA DE LAPLACE ---
+\section{Transformada de Laplace}
+
+\subsection*{Definición y Existencia}
+Unilateral ($t>0$, causal):
+$$ F(s) = \int_{0}^{\infty} f(t) e^{-st} \, dt $$
+\textbf{Abscisa $\sigma_a$:} Mínimo $Re(s)$ para convergencia (dada por el orden exponencial de $f$).
+\textbf{Holomorfía:} En el semiplano $Re(s) > \sigma_a$.
+
+\subsection*{Teorema de la Convolución (Causal)}
+La transformada del producto convolución es el producto de las transformadas:
+$$ \boxed{ \mathcal{L}[(f * g)(t)] = F(s) \cdot G(s) } $$
+
+\textbf{Definición de Convolución Causal:}
+Para funciones que son cero antes de $t=0$, los límites de integración son finitos:
+$$ (f * g)(t) = \int_{0}^{t} f(\tau) g(t-\tau) \, d\tau $$
+
+\subsection*{Propiedades Clave}
+\begin{itemize}
+    \item \textbf{Límite:} $\lim_{s \to \infty} F(s) = 0$.
+    \item \textbf{Escala:} $\mathcal{L}[f(at)] = \frac{1}{a} F(s/a)$.
+    \item \textbf{Traslación:} $\mathcal{L}[f(t-a)u(t-a)] = e^{-as} F(s)$.
+    \item \textbf{Integral:} $\mathcal{L}[\int_0^t f(\tau) d\tau] = \frac{F(s)}{s}$.
+    \item \textbf{Derivadas ($t \to s$):} $\mathcal{L}[f'] = sF(s) - f(0^+)$.
+    \item \textbf{Derivadas ($s \to t$):} $\frac{d}{ds}F(s) = \mathcal{L}[-t f(t)]$.
+\end{itemize}
+
+\subsection*{Antitransformada e Inversión}
+$$ f(t) = \frac{1}{2\pi i} \int_{\gamma - i\infty}^{\gamma + i\infty} F(s) e^{st} ds $$
+\textbf{Condición:} La recta $\gamma$ debe estar a la derecha de todas las singularidades.
+\textbf{Métodos Prácticos:}
+1. Fracciones simples + Tabla.
+2. Residuos: $f(t) = \sum \text{Res}(F(s)e^{st})$.
+3. Convolución.
+
+\newpage
+
+% --- SECCIÓN 7: TRANSFORMADA Z ---
+\section{Transformada Z}
+
+\subsection*{Definición y ROC}
+$$ X(z) = \sum_{n=-\infty}^{\infty} x[n] z^{-n} $$
+\textbf{ROC:} Anillo en el plano complejo (Corona) limitado por polos.
+
+\subsection*{Propiedades}
+\begin{itemize}
+    \item \textbf{Derivada ($z \to n$):} $-z X'(z) \leftrightarrow n x[n]$.
+    \item \textbf{Upsampling:} $x[n/k] \leftrightarrow X(z^k)$.
+    \item \textbf{Diferencias:} $\nabla x[n] \leftrightarrow (1-z^{-1})X(z)$; $\Delta x[n] \leftrightarrow (z-1)X(z)$.
+    \item \textbf{Parseval:} $\sum |x[n]|^2 = \frac{1}{2\pi i} \oint X(z) X(z^{-1}) z^{-1} dz$.
+    \item \textbf{Valor Inicial:} $x[0] = \lim_{z \to \infty} X(z)$.
+    \item \textbf{Valor Final:} $\lim_{n \to \infty} x[n] = \lim_{z \to 1} (z-1)X(z)$.
+\end{itemize}
+
+\vspace{0.5cm}
+\hrule
+\vspace{0.5cm}
+
+% --- SECCIÓN 8: SERIES DE FOURIER ---
+\section{Series de Fourier}
+
+\subsection*{Identidades y Ortogonalidad}
+$$ \sin A \sin B = \frac{1}{2}[\cos(A-B) - \cos(A+B)] $$
+$$ \cos A \cos B = \frac{1}{2}[\cos(A-B) + \cos(A+B)] $$
+$$ \sin A \cos B = \frac{1}{2}[\sin(A+B) + \sin(A-B)] $$
+\textbf{Integrales (Periodo $P$):} Productos cruzados ($n \neq m$) dan 0. Cuadrados ($n=m$) dan $P/2$.
+
+\subsection*{Coeficientes (Periodo $P$, $w_k = 2\pi k/P$)}
+$$ f(t) = \frac{a_0}{2} + \sum [a_k \cos(w_k t) + b_k \sin(w_k t)] $$
+$$ a_k = \frac{2}{P} \int_{t_0}^{t_0+P} f(t) \cos(w_k t) dt, \quad b_k = \frac{2}{P} \int_{t_0}^{t_0+P} f(t) \sin(w_k t) dt $$
+
+\subsection*{Propiedades}
+\begin{itemize}
+    \item \textbf{Intervalo Móvil:} $\int_{t_0}^{t_0+P} = \int_{0}^{P}$.
+    \item \textbf{Paridad:} Par $\times$ Impar = Impar (Integral 0).
+    \item \textbf{Dirichlet:} En saltos, converge al promedio $(f(t^+) + f(t^-))/2$.
+\end{itemize}
+
+\end{document}
