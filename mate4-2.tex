@@ -1,0 +1,342 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath, amssymb}
+\usepackage{geometry}
+\usepackage{esint} 
+\usepackage{enumitem}
+\usepackage{amsmath}
+\usepackage{tcolorbox}
+
+\geometry{top=2.5cm, bottom=2.5cm, left=2.5cm, right=2.5cm}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{1em}
+
+\begin{document}
+
+\begin{center}
+    {\Huge \textbf{Parte 2: Transformadas y Series}} \\
+    \vspace{0.3cm}
+    \large (Fourier, Laplace, Z y Series Trigonométricas)
+    \hrule
+\end{center}
+
+\section{1. Transformada de Fourier}
+
+\subsection*{Definiciones}
+$$ \hat{f}(\omega) = \int_{-\infty}^{+\infty} f(t) e^{-i\omega t} dt \quad \longleftrightarrow \quad f(t) = \frac{1}{2\pi} \int_{-\infty}^{+\infty} \hat{f}(\omega) e^{i\omega t} d\omega $$
+\textbf{Condiciones:} $f \in L^1$ (Módulo integrable), $CPP$. Para antitransformada, $\hat{f} \in L^1$.
+
+\subsection*{Propiedades}
+\begin{itemize}
+    \item \textbf{Convolución:} $\mathcal{F}[f * g] = \hat{f}(\omega) \cdot \hat{g}(\omega)$.
+
+    \item \textbf{Escala y Desplazamiento:} 
+    $$ f(at+b) \longleftrightarrow \frac{1}{|a|} e^{i \frac{b\omega}{a}} \hat{f}\left(\frac{\omega}{a}\right) \quad (a \neq 0) $$
+    
+    \item \textbf{Modulación (Desplazamiento en frecuencia):} 
+    $$ e^{iat} f(t) \longleftrightarrow \hat{f}(\omega - a) $$
+    
+    \item \textbf{Conjugación:} 
+    $$ \overline{f(t)} \longleftrightarrow \overline{\hat{f}(-\omega)} $$
+    
+    \item \textbf{Derivada en el tiempo:} 
+    $$ f^{(n)}(t) \longleftrightarrow (i\omega)^n \hat{f}(\omega) $$
+    
+    \item \textbf{Multiplicación por $t^n$ (Derivada en frecuencia):} 
+    $$ t^n f(t) \longleftrightarrow i^n \hat{f}^{(n)}(\omega) $$
+\end{itemize}
+
+\subsection*{Dualidad y Ejemplos}
+\textbf{Propiedad:} $\mathcal{F}[\hat{f}(t)] = 2\pi f(-\omega)$.
+\begin{itemize}
+    \item Ejemplo: Sabemos $\mathcal{F}[e^{-|t|}] = \frac{2}{1+\omega^2} \implies \mathcal{F}\left[\frac{2}{1+t^2}\right] = 2\pi e^{-|\omega|}$.
+    \item \textbf{Pulso Simétrico} (ancho $2a$, de $-a$ a $a$):
+    $$ \hat{P}(\omega) = \frac{2\sin(a\omega)}{\omega} $$
+\end{itemize}
+\section{2. Transformada de Laplace}
+
+\subsection*{Definición Unilateral}
+$$ F(s) = \int_{0}^{\infty} f(t) e^{-st} dt \quad (t>0, \text{Causal}) $$
+\subsection*{Existencia de la Transformada}
+Condiciones suficientes para que exista $\mathcal{L}\{f(t)\}$:
+\begin{enumerate}
+    \item \textbf{Continua a trozos} en el intervalo $[0, \infty)$.
+    \item \textbf{De orden exponencial $\alpha$:} Existen constantes $M > 0$ y $\alpha > 0$ tales que:
+    $$ |f(t)| \le M e^{\alpha t} \quad $$
+\end{enumerate}
+\textit{Nota:} Si se cumplen, la transformada existe para $Re(s) > \alpha$, quedando así la \textbf{Abcisa de Convergencia}.
+
+
+\subsection*{Teorema de Convolución (Causal)}
+$$ \mathcal{L}[(f * g)(t)] = F(s) \cdot G(s) $$
+\textbf{Ojo:} La integral es $\int_{0}^{t} f(\tau) g(t-\tau) d\tau$.
+
+\subsection*{Propiedades de la Transformada de Laplace (Tabla Resumen)}
+\begin{itemize}
+    \item \textbf{Derivada n-ésima (en el tiempo):}
+    $$ \mathcal{L}\{f^{(n)}(t)\} = s^n F(s) - s^{n-1}f(0) - s^{n-2}f'(0) - \dots - f^{(n-1)}(0) $$
+    
+    \item \textbf{Multiplicación por $t^n$ (Derivada en frecuencia):}
+    $$ \mathcal{L}\{t^n f(t)\} = (-1)^n \frac{d^n}{ds^n} F(s) $$
+    
+    \item \textbf{Traslación en frecuencia (Exponencial):}
+    $$ \mathcal{L}\{e^{at} f(t)\} = F(s-a) $$
+    
+    \item \textbf{Traslación en el tiempo (Escalón):}
+    $$ \mathcal{L}\{u(t-c) f(t-c)\} = e^{-cs} F(s) \quad (c > 0) $$
+    
+    \item \textbf{Escalamiento:}
+    $$ \mathcal{L}\{f(at)\} = \frac{1}{a} F\left(\frac{s}{a}\right) \quad (a > 0) $$
+    
+    \item \textbf{Integral de la función:}
+    $$ \mathcal{L}\left\{ \int_0^t f(\tau) \, d\tau \right\} = \frac{F(s)}{s} $$
+\end{itemize}
+
+\subsection*{Abscisa de Convergencia ($\sigma_a$)}
+Es el valor real mínimo que debe tener la parte real de $s$ para que la integral impropia de Laplace converja. Se determina por el \textbf{orden exponencial} de la función en el tiempo.
+
+\textbf{Cómo obtenerla (Regla Práctica):}
+Si $f(t)$ crece como $e^{\alpha t}$ cuando $t \to \infty$, entonces $\sigma_a = \alpha$.
+\begin{itemize}
+    \item \textbf{Ejemplo Cortísimo:}
+    \begin{itemize}
+        \item Para $f(t) = e^{5t}, \implies $la abcisa es $Re(s)> AbsCv$, en este caso cuando pedis cero por acotada pedis $ e^{real}, $ con $real>0  $.
+        \item De base, entiendo que la abs de cv es minimo mayor a 0.
+        \item TAMBIEN, hay que ver que $$ \lim_{s \to \infty} F(s) = 0 $$
+    \end{itemize}
+\end{itemize}
+
+\textbf{¿Qué significa la zona a la derecha ($Re(s) > \sigma_a$)?}
+\begin{itemize}
+    \item Es la **Región de Convergencia (ROC)**: El conjunto de valores de $s$ donde la Transformada existe.
+    \item En esta zona, la función $F(s)$ es **Holomorfa** (analítica), es decir, no tiene singularidades (polos). Todos los polos de $F(s)$ siempre quedan "a la izquierda" de esta región.
+\end{itemize}
+\subsection*{Inversión (Antitransformada)}
+$$ f(t) = \frac{1}{2\pi i} \int_{\gamma - i\infty}^{\gamma + i\infty} F(s) e^{st} ds $$
+\textbf{Condición de la curva:} La recta $\gamma$ debe estar a la \textbf{derecha} de todas las singularidades (en la zona de holomorfía). Métodos: Residuos, Tabla.
+
+\section{3. Transformada Z (Discreta)}
+
+\subsection*{Conceptos}
+$$ X(z) = \sum_{n=-\infty}^{\infty} x[n] z^{-n} $$
+\textbf{ROC:} Anillo (Corona) $R_{min} < |z| < $.
+
+\subsection*{Propiedades y Demostraciones}
+\begin{itemize}
+    \item \textbf{Derivada:} $-z X'(z) \leftrightarrow n x[n]$.
+    \item \textbf{Expansión (Upsampling):} $x[n/k] \leftrightarrow X(z^k)$. \\
+    \textit{Demo:} Sustituir $m=n/k$ en la sumatoria.
+    \item \textbf{Diferencia Atrás:} $x[n]-x[n-1] \leftrightarrow (1-z^{-1})X(z)$. \\
+    \textit{Demo:} $\sum x[n]z^{-n} - \sum x[n-1]z^{-n}$. En la 2da, $m=n-1 \implies z^{-(m+1)} = z^{-1}z^{-m}$.
+    \item \textbf{Diferencia Adelante:} $x[n+1]-x[n] \leftrightarrow (z-1)X(z)$.
+\end{itemize}
+
+\section{Expansión en el Tiempo (Up-sampling)}
+\textbf{Propiedad:} $\mathcal{Z}\{x_k[n]\} = X(z^k)$, donde $x_k[n]$ es $x[n/k]$ si $n$ es múltiplo de $k$, y 0 en otro caso.
+
+Na esto es literal transformar $x[n/k]$ contando que solo tomo multiplos de k. Y ahí cambio de variable n/k = m.
+\section{Desplazamiento en el Tiempo (Retardo)}
+\textbf{Propiedad:} $\mathcal{Z}\{x[n-k]\} = z^{-k}X(z)$ (Asumiendo $x[n]=0$ para $n<0$).
+
+\textbf{Demostración:}
+\begin{align*}
+    Y(z) &= \sum_{n=0}^{\infty} x[n-k]z^{-n} \\
+    \intertext{Sea $m = n - k$, entonces $n = m + k$. Si $n=0 \to m=-k$, pero por causalidad la suma inicia en $m=0$:}
+    Y(z) &= \sum_{m=0}^{\infty} x[m] z^{-(m+k)} \\
+    Y(z) &= z^{-k} \sum_{m=0}^{\infty} x[m] z^{-m} \\
+    Y(z) &= z^{-k}X(z)
+\end{align*}
+
+\section{Desplazamiento en el Tiempo (Adelanto)}
+\textbf{Propiedad:} $\mathcal{Z}\{x[n+k]\} = z^k \left( X(z) - \sum_{m=0}^{k-1} x[m]z^{-m} \right)$
+
+\textbf{Demostración:}
+\begin{align*}
+    Y(z) &= \sum_{n=0}^{\infty} x[n+k]z^{-n} \\
+    \intertext{Sea $m = n + k$, entonces $n = m - k$. Cuando $n=0 \to m=k$:}
+    Y(z) &= \sum_{m=k}^{\infty} x[m] z^{-(m-k)} \\
+    Y(z) &= z^k \sum_{m=k}^{\infty} x[m] z^{-m} \\
+    \intertext{Expresamos la suma desde $k$ como la suma total menos los primeros términos:}
+    Y(z) &= z^k \left( \sum_{m=0}^{\infty} x[m] z^{-m} - \sum_{m=0}^{k-1} x[m] z^{-m} \right) \\
+    Y(z) &= z^k \left( X(z) - \sum_{m=0}^{k-1} x[m]z^{-m} \right)
+\end{align*}
+
+\section{Diferencia hacia atrás (Backward Difference)}
+\textbf{Propiedad:} $\mathcal{Z}\{x[n] - x[n-1]\} = (1 - z^{-1})X(z)$
+
+\textbf{Demostración:}
+\begin{align*}
+    \mathcal{Z}\{x[n] - x[n-1]\} &= \mathcal{Z}\{x[n]\} - \mathcal{Z}\{x[n-1]\} \\
+    &= X(z) - z^{-1}X(z) \\
+    &= (1 - z^{-1})X(z)
+\end{align*}
+
+\section{Diferencia hacia adelante (Forward Difference)}
+\textbf{Propiedad:} $\mathcal{Z}\{x[n+1] - x[n]\} = zX(z) - zx[0] - X(z)$
+
+\textbf{Demostración:}
+\begin{align*}
+    \mathcal{Z}\{x[n+1] - x[n]\} &= \mathcal{Z}\{x[n+1]\} - \mathcal{Z}\{x[n]\} \\
+    \intertext{Usando la propiedad de adelanto con $k=1$:}
+    &= \left( z^1 (X(z) - x[0]z^0) \right) - X(z) \\
+    &= (zX(z) - zx[0]) - X(z) \\
+    &= zX(z) - zx[0] - X(z)
+\end{align*}
+
+\section{Escalamiento en Z (Multiplicación por exponencial)}
+\textbf{Propiedad:} $\mathcal{Z}\{a^n x[n]\} = X(z/a)$
+
+\textbf{Demostración:}
+\begin{align*}
+    Y(z) &= \sum_{n=0}^{\infty} (a^n x[n]) z^{-n} \\
+    &= \sum_{n=0}^{\infty} x[n] (a \cdot z^{-1})^n \\
+    &= \sum_{n=0}^{\infty} x[n] \left( \frac{z}{a} \right)^{-n} \\
+    &= X\left(\frac{z}{a}\right)
+\end{align*}
+
+\section{Conjugación}
+\textbf{Propiedad:} $\mathcal{Z}\{\overline{x[n]}\} = \overline{X(\overline{z})}$
+
+\textbf{Demostración:}
+\begin{align*}
+    Y(z) &= \sum_{n=0}^{\infty} \overline{x[n]} z^{-n} \\
+    \intertext{Notamos que $z^{-n} = \overline{(\overline{z})^{-n}}$:}
+    Y(z) &= \sum_{n=0}^{\infty} \overline{x[n]} \cdot \overline{(\overline{z})^{-n}} \\
+    Y(z) &= \overline{\sum_{n=0}^{\infty} x[n] (\overline{z})^{-n}} \\
+    Y(z) &= \overline{X(\overline{z})}
+\end{align*}
+
+\section{Diferenciación en Z (Multiplicación por n)}
+\textbf{Propiedad:} $\mathcal{Z}\{nx[n]\} = -z \frac{dX(z)}{dz}$
+
+\textbf{Demostración:}
+\begin{align*}
+    X(z) &= \sum_{n=0}^{\infty} x[n]z^{-n} \\
+    \frac{dX(z)}{dz} &= \sum_{n=0}^{\infty} x[n] \frac{d}{dz}(z^{-n}) \\
+    \frac{dX(z)}{dz} &= \sum_{n=0}^{\infty} x[n] (-n z^{-n-1}) \\
+    \frac{dX(z)}{dz} &= -z^{-1} \sum_{n=0}^{\infty} (n x[n]) z^{-n} \\
+    \intertext{Multiplicamos ambos lados por $-z$:}
+    -z \frac{dX(z)}{dz} &= \sum_{n=0}^{\infty} (n x[n]) z^{-n} \\
+    -z \frac{dX(z)}{dz} &= \mathcal{Z}\{nx[n]\}
+\end{align*}
+
+\subsection*{Teoremas de Valor}
+\begin{itemize}
+    \item \textbf{Inicial:} $x[0] = \lim_{z \to \infty} X(z)$.
+    \item \textbf{Final:} $x[\infty] = \lim_{z \to 1} (z-1)X(z)$.
+\end{itemize}
+
+\subsection*{Parseval Unilateral}
+$$ \sum_{n=0}^{\infty} x[n]y[n] = \frac{1}{2\pi i} \oint_{|z|=1} X(z) Y(z^{-1}) z^{-1} dz $$
+
+
+\begin{tcolorbox}[colback=blue!5!white, colframe=blue!50!black, title=Teorema (Identidad de Parseval)]
+Sean $x[n]$ e $y[n]$ dos sucesiones causales. Supongamos que $X(z)$, la transformada $\mathcal{Z}$ de $x[n]$ converge cuando $|z| > \rho_1$ y que $Y(z)$, la transformada $\mathcal{Z}$ de $y[n]$, converge cuando $|z| > R_2 \neq 0$. Sea $\rho_2 = 1/R_2$. Si $\rho_1 < \rho_2$ y $\rho_1 < R < \rho_2$, entonces
+
+\[
+\sum_{n=0}^{\infty} x[n]y[n] = \frac{1}{2\pi i} \oint_{|z|=R} X(z)Y(z^{-1})z^{-1} dz
+\]
+\end{tcolorbox}
+
+
+
+\section{4. Series de Fourier}
+
+% --- Caja de Definición ---
+\begin{tcolorbox}[colback=blue!5!white, colframe=blue!50!black, title=\textbf{Definición}]
+Sea
+\[
+    \mathcal{S}\{g\}(t) = \frac{a_0}{2} + \sum_{n \in \mathbb{N}} (a_n \cos(nt) + b_n sen(nt)).
+\]
+la serie de Fourier trigonométrica de $g$. Se define la serie de Fourier trigonométrica de $f$ por la igualdad $\omega = P/2\pi$
+\[
+    \mathcal{S}\{f\}(x) = \frac{a_0}{2} + \sum_{n \in \mathbb{N}} (a_n \cos(n\omega x) + b_n sen(n\omega x)).
+\]
+\end{tcolorbox}
+
+\vspace{0.5cm} % Espacio entre cajas
+
+% --- Caja de Proposición ---
+\begin{tcolorbox}[colback=blue!5!white, colframe=blue!50!black, title=\textbf{Proposición}]
+Vale que
+\[
+    a_n = \frac{2}{P} \int_{0}^{P} f(x) \cos(n\omega x) \, dx \quad \quad b_n = \frac{2}{P} \int_{0}^{P} f(x) sen(n\omega x) \, dx.
+\]
+\end{tcolorbox}
+
+\subsection*{Identidades Trigonométricas}
+\begin{itemize}
+    \item $\sin A \sin B = \frac{1}{2}[\cos(A-B) - \cos(A+B)]$
+    \item $\cos A \cos B = \frac{1}{2}[\cos(A-B) + \cos(A+B)]$
+    \item $\sin A \cos B = \frac{1}{2}[\sin(A+B) + \sin(A-B)]$
+\end{itemize}
+
+\subsection*{Coeficientes y Ortogonalidad}
+Para periodo $P$ y $w_k = 2\pi k/P$:
+$$ a_k = \frac{2}{P} \int_{t_0}^{t_0+P} f(t) \cos(w_k t) dt, \quad b_k = \frac{2}{P} \int_{t_0}^{t_0+P} f(t) \sin(w_k t) dt $$
+\textbf{Integrales:} $\int_0^P \sin(nw)\sin(mw) dt = \begin{cases} 0 & n \neq m \\ P/2 & n=m \end{cases}$
+
+\subsection*{Propiedades}
+\begin{itemize}
+    \item \textbf{Intervalo Móvil:} $\int_{t_0}^{t_0+P} = \int_{0}^{P}$. \\
+    \textit{Demo:} Dividir integral en $P$, cambio de variable $u=t-P$ usando periodicidad.
+    \item \textbf{Paridad:} Par $\times$ Impar = Impar (Integral 0).
+    \item \textbf{Dirichlet:} En discontinuidad, converge a $\frac{f(t^+)+f(t^-)}{2}$.
+\end{itemize}
+
+\section*{Demostración: Invarianza del Intervalo de Integración (Intervalo Móvil)}
+
+\textbf{Objetivo:} Probar que si $f(t)$ es periódica con periodo $P$, entonces $\int_{t_0}^{t_0+P} f(t)\,dt = \int_{0}^{P} f(t)\,dt$.
+
+\begin{align*}
+    \int_{t_0}^{t_0+P} f(t)\,dt &= \int_{t_0}^{P} f(t)\,dt + \int_{P}^{t_0+P} f(t)\,dt \quad \text{\footnotesize{(dividir integral en $P$)}} \\
+    &= \int_{t_0}^{P} f(t)\,dt + \int_{0}^{t_0} f(t)\,dt = \int_{0}^{P} f(t)\,dt \quad \text{\footnotesize{(cv. $u=t-P$ y periodicidad)}}
+\end{align*}
+\begin{align*}
+    % Integral de Cosenos
+    \int_{0}^{P} \cos\left(\frac{2\pi n x}{P}\right) \cos\left(\frac{2\pi m x}{P}\right) \, dx &= 
+    \begin{cases} 
+        0 & \text{si } n \neq m \\
+        \frac{P}{2} & \text{si } n = m \neq 0
+    \end{cases} \\[10pt]
+    % Integral de Senos
+    \int_{0}^{P} \sin\left(\frac{2\pi n x}{P}\right) \sin\left(\frac{2\pi m x}{P}\right) \, dx &= 
+    \begin{cases} 
+        0 & \text{si } n \neq m \\
+        \frac{P}{2} & \text{si } n = m \neq 0
+    \end{cases}
+\end{align*}
+
+% --- CAJA 1: PROPOSICIÓN (Serie de Cosenos / Par) ---
+\begin{tcolorbox}
+La extensión periódica de $f_{\text{par}}$ tiene período $P = 2L$. Sea $\omega_m = \frac{2\pi m}{2L}$. La serie de Fourier de $f_{\text{par}}$ está dada por
+
+$$ \mathcal{S}\{f_{\text{par}}\}(t) = \frac{a_0}{2} + \sum_{m>0} a_m \cos(\omega_m t) $$
+
+donde
+
+$$ a_m = \frac{2}{L} \int_{0}^{L} f(t) \cos(\omega_m t) \, dt $$
+
+\textit{Esta serie se llama la serie de cosenos de la función $f$}
+\end{tcolorbox}
+
+\vspace{1cm} % Espacio entre las cajas
+
+% --- CAJA 2: DEFINICIÓN (Serie de Senos / Impar) ---
+\begin{tcolorbox}
+La serie de Fourier de $f_{\text{impar}}$ está dada por
+
+$$ \mathcal{S}\{f_{\text{impar}}\}(t) = \sum_{m>0} b_m \operatorname{sen}(\omega_m t) $$
+
+donde
+
+$$ b_m = \frac{2}{L} \int_{0}^{L} f(t) \operatorname{sen}(\omega_m t) \, dt $$
+
+\textit{Esta serie se llama la serie de senos de la función $f$}
+\end{tcolorbox}
+
+\section{5. Extras Matemáticos}
+\subsection*{Serie Geométrica Finita}
+$$ \sum_{j=0}^{n} r^j = \frac{1 - r^{n+1}}{1 - r} $$
+
+\end{document}

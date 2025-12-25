@@ -1,0 +1,162 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath, amssymb}
+\usepackage{geometry}
+\usepackage{esint} 
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+
+% Configuración de página espaciosa
+\geometry{top=2.5cm, bottom=2.5cm, left=2.5cm, right=2.5cm}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{1em}
+
+\begin{document}
+
+\begin{center}
+    {\Huge \textbf{Guía de Variable Compleja: Parte 1}} \\
+    \vspace{0.3cm}
+    \large (Fundamentos, Holomorfía, Integración y Residuos)
+    \hrule
+\end{center}
+
+\section{1. Aritmética Básica}
+
+\subsection*{Potencias y Raíces}
+\begin{itemize}
+    \item \textbf{Potencias de $i$:} $i^k = i^{k \mod 4}$ (Ciclo: $1, i, -1, -i$).
+    \item \textbf{Raíces Enésimas:} $Z^n = W$ tiene exactamente $n$ soluciones.
+    \item \textbf{Conjugado:} Si $w \in \mathbb{R} \implies \bar{w} = w$.
+    \item \textbf{Polinomios:} Grado $n \implies n$ raíces (Teorema Fundamental).
+\end{itemize}
+
+% Caja de palabras clave solicitada
+\begin{center}
+    \fbox{
+    \begin{minipage}{0.6\textwidth}
+        \centering
+        \textbf{\large PALABRAS CLAVE:} \\
+        CUADRANTE - ÁNGULO - MÓDULO - CONJUGADO
+    \end{minipage}
+    }
+\end{center}
+
+\subsection*{Binomio de Newton}
+$$ (z+w)^n = \sum_{k=0}^n \binom{n}{k} z^k w^{n-k} $$
+
+\section{2. Funciones y Derivadas}
+
+\subsection*{Condiciones de Cauchy-Riemann (C-R)}
+Para $f(z) = u(x,y) + i v(x,y)$, condición necesaria para derivabilidad:
+$$ \boxed{u_x = v_y} \quad \text{y} \quad \boxed{u_y = -v_x} $$
+\textbf{Matriz Jacobiana (Diferencial):}
+$$ Df = \begin{pmatrix} u_x & u_y \\ v_x & v_y \end{pmatrix} $$
+\textbf{Holomorfía:} $f$ es derivable en un entorno del punto.
+
+\subsection*{¿Cuándo $f$ es Constante?}
+Si $f$ es holomorfa en un dominio conexo, es constante si ocurre \textbf{cualquiera} de esto:
+1. $u = \text{cte}$ \quad 2. $v = \text{cte}$ \quad 3. $|f| = \text{cte}$ \quad 4. $\arg(f) = \text{cte}$ \quad 5. $\bar{f}$ es holomorfa.
+
+\subsection*{Logaritmo Complejo}
+$$ \log(z) = \ln|z| + i(\arg(z) + 2k\pi) $$
+\textit{(Multivaluada. Requiere cortes de rama para ser continua).}
+
+\section{Funciones Elementales e Identidades}
+
+\subsection*{Identidades Clave}
+$$ \boxed{\cosh^2(z) - \sinh^2(z) = 1} $$
+
+\subsection*{Definiciones Exponenciales}
+$$ \sin z = \frac{e^{iz} - e^{-iz}}{2i}, \quad \cos z = \frac{e^{iz} + e^{-iz}}{2} $$
+$$ \sinh z = \frac{e^z - e^{-z}}{2}, \quad \cosh z = \frac{e^z + e^{-z}}{2} $$
+
+\subsection*{Descomposición en $u + iv$}
+\begin{itemize}
+    \item $\sin(x+iy) = \sin(x)\cosh(y) + i \cos(x)\sinh(y)$
+    \item $\cos(x+iy) = \cos(x)\cosh(y) - i \sin(x)\sinh(y)$
+    \item $\sinh(x+iy) = \sinh(x)\cos(y) + i \cosh(x)\sin(y)$
+    \item $\cosh(x+iy) = \cosh(x)\cos(y) + i \sinh(x)\sin(y)$
+\end{itemize}
+
+\section{Series de Potencias}
+
+\subsection*{Desarrollos}
+$$ e^z = \sum_{n=0}^\infty \frac{z^n}{n!} = 1 + z + \frac{z^2}{2!} + \dots $$
+$$ \sin z = \sum_{n=0}^\infty (-1)^n \frac{z^{2n+1}}{(2n+1)!} \quad ; \quad \sinh z = \sum_{n=0}^\infty \frac{z^{2n+1}}{(2n+1)!} $$
+$$ \cos z = \sum_{n=0}^\infty (-1)^n \frac{z^{2n}}{(2n)!} \quad ; \quad \cosh z = \sum_{n=0}^\infty \frac{z^{2n}}{(2n)!} $$
+\textit{(Nota: $\sinh$ y $\cosh$ son iguales a $\sin$ y $\cos$ pero sin alternar signos).}
+
+\subsection*{Producto de Cauchy (Multiplicación de Series)}
+$$ \left(\sum_{n=0}^\infty a_n z^n\right) \cdot \left(\sum_{n=0}^\infty b_n z^n\right) = \sum_{n=0}^{\infty} \underbrace{\left[ \sum_{k=0}^n a_k b_{n-k} \right]}_{c_n} z^n $$
+
+\textbf{Puedo igualar exponente de Z a menos 1 y de ahí hago cambio de contador de alguna de las series. Buscar valor conveniente de k o n}
+
+\subsection*{Coeficientes y Criterios}
+Taylor: $a_k = f^{(k)}(z_0)/k!$.
+\begin{itemize}
+    \item \textbf{D'Alambert:} $L = \lim |a_{n+1}/a_n| \implies R = 1/L$.
+    \item \textbf{Cauchy (Raíz):} $L = \lim \sqrt[n]{|a_n|} \implies R = 1/L$.
+\end{itemize}
+
+\text{"Ir y volver" de series conocidas}
+
+\section{Series de Laurent y Singularidades}
+
+\subsection*{Definiciones}
+\begin{itemize}
+    \item \textbf{Ceros:} $f(z_0)=0$. \textbf{Polos:} $f(z_0) \to \infty$. \textbf{Orden $k$:} Potencia de termino que extraigo como factor común, por g(z) holomorfa.
+    \item \textbf{Estructura:}
+    $$ f(z) = \underbrace{\sum_{-\infty}^{-1} a_n (z-z_0)^n}_{\text{Parte Principal (Cv. Anillo)}} + \underbrace{\sum_{0}^{\infty} a_n (z-z_0)^n}_{\text{Parte Taylor (Cv. Disco)}} $$
+\end{itemize}
+
+\subsection*{Coeficientes Laurent (Integral)}
+$$ a_n = \frac{1}{2\pi i} \oint_\gamma \frac{f(z)}{(z-z_0)^{n+1}} dz $$
+\textit{Casos del exponente $n+1 $:}
+\begin{itemize}
+    \item $n+1 >0, =0, <0$.
+    \item Digamos que es Jordan +, dentro de la zona de CV de SL. 
+\end{itemize}
+
+\section{Integrales y Teoremas}
+
+$$ \oint_\gamma \frac{1}{(z-z_0)^n} dz = \begin{cases} 2\pi i & n=1 \\ 0 & n \neq 1, n \in \mathbb{Z} \end{cases} $$
+
+\subsection*{Teoremas Fundamentales}
+\begin{itemize}
+    \item \textbf{Cauchy-Goursat:} Si $f$ holomorfa en el interior $\implies \oint f = 0$.
+    \item \textbf{Fórmula Integral Cauchy (FIC):} $f^{(n)}(z_0) = \frac{n!}{2\pi i} \oint \frac{f(z)}{(z-z_0)^{n+1}} dz$.
+    \item \textbf{Liouville:} Entera + Acotada $\implies$ Constante.
+\end{itemize}
+
+\section{Cálculo de Residuos}
+
+\subsection*{Estrategia y Fórmulas}
+1. Determinar orden $k$ (Propiedad: Orden$(f \cdot g)$ = Suma de órdenes, y si es división se resta).
+2. \textbf{Fórmula General (Orden $k$):}
+   $$ \text{Res}(f,z_0) = \frac{1}{(k-1)!} \lim_{z \to z_0} \frac{d^{k-1}}{dz^{k-1}} \left[ (z-z_0)^k f(z) \right] $$
+3. \textbf{Truco $P/Q'$ (Polos Simples):} Si $f=P/Q$, $Q(z_0)=0, Q'(z_0) \neq 0$, $P(z_0) \neq 0$, P y Q holomorfas:
+   $$ \text{Res}(f, z_0) = \frac{P(z_0)}{Q'(z_0)} $$
+
+\subsection*{Residuo Logarítmico}
+$$ \frac{1}{2\pi i} \oint \frac{f'(z)}{f(z)} dz = N - P \quad (N=\text{Ceros}, P=\text{Polos}) $$
+Siendo N y P los números de ceros y polos (con multiplicidad) dentro de la curva.
+No funciona si hay esenciales o no aisladas.
+\subsection*{Teorema de los Residuos}
+$$ \oint_\gamma f(z) dz = 2\pi i \sum_{k} \text{Res}(f, z_k) $$
+Condiciones: Jordan +, $f$ holomorfa salvo finitos polos aislados dentro de $\gamma$, .
+
+
+% --- SECCIÓN 8: INTEGRALES POR PARAMETRIZACIÓN ---
+\section{8. Integración Directa (Parametrización)}
+
+\subsection*{Fórmula General}
+Si la curva $\gamma$ se describe mediante $z(t)$ con $t \in [a, b]$:
+$$ \boxed{ \int_\gamma f(z) \, dz = \int_a^b f(z(t)) \cdot z'(t) \, dt } $$
+
+\textbf{Pasos:}
+1. Parametrizar $\gamma$ como $z(t)$.
+2. Calcular el diferencial $dz = z'(t) dt$.
+3. Sustituir todo en términos de $t$ y resolver la integral real.
+
+PERO si hay primitiva holomorfa en el recorrido, usar: F(b) - F(a).
+\end{document}
